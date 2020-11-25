@@ -1,0 +1,61 @@
+---
+title: "Assignment 3: Incarceration Data"
+author: "Omar Hassan"
+date: "November 24, 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+source("analysis.R") 
+```
+
+
+## An Introduction 
+As an introduction, I wanted to look at how black people ages 15-64 have been incarcerated impacted in this country. Whether it be in a specific state, county, the country overall, I am interested to learn how people who look like me have been incarcerated in this country and to see if there is a correlation between their
+incarceration and how it may be compared to the incarceration of another race.
+## Summary Information
+```{r echo=FALSE}
+summary_info
+```
+The highest fips takes place in Weston County. At the same time, the state that
+has the highest fips is Wyoming. I was interested in this to see if black people
+are greatly incarcerated in that state however they are not. The max black pop.
+is 1289546. That is an extremely big number and makes me become inclined to 
+assume in all large populations, black people greatly populate it. The state 
+that has the max black people incarcerated is New York however the county that
+has the most black people incarcerated is Los Angeles County. That is interesting
+and makes me want to further research why that is.
+
+## Trend over Time Chart
+```{r echo = FALSE, warning=FALSE}
+ggplot(data = state_inmate_prop, aes(x = states, 
+                                                  y = black_jail_pop_rate)) +
+ geom_boxplot(outlier.shape = NA) +
+ ylim(NA, 10000) +
+labs(title = "Different States Black Jail Populations", x = "States", 
+     y = "Rate per 100,000")
+```
+For trends over time, I created a boxplot that compares two states black jail 
+populations. The two states I chose were Kentucky and Texas. As can be seen in 
+graphic, Texas's median is smaller than Kentucky's lowest quartile. This 
+highlights that kentucky's black population in jail is significantly larger
+than Texas' even though Texas is the largest populated state in America. This 
+can be done for all states. This form of comparing trends allows us to visualize the severity of incarceration rates and proves to show that there is not always a direct correlation between population size and a race's incarceration rate. It may even prove to show that it is a certain states policies that cause high incarceration rates.
+
+
+## My MAP
+The map illustrates the counties in a specific state that have a high population of black people incarcerated. Depending on the percentage, a specfic county will stand out more than others. In this example, I chose Texas. It is the most populated state in America so i was interested to see if there were or how many counties consist of black people between the ages of 15-64 being greatly incarcerated. This is an interesting geogrpahic visual because it allows us to identify what counties black people are incarcerated in and could lead to more research of it is because of a large black population or because black people are unfairly prosecuted. 
+
+```{r echo = FALSE}
+ ggplot(map_data) +
+  geom_polygon(
+    mapping = aes(x = long, y = lat, group = group, fill = black_perc_15to64),
+    color = "white", size = 0.2
+  ) +
+  coord_map() +
+  scale_fill_continuous(limits = c(0, max(map_data$black_perc_15to64)), 
+                        na.value = "white") +
+  blank_theme +
+  ggtitle("Populations per county in TX")
+```
